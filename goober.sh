@@ -1,14 +1,19 @@
 clear
 echo "#----------=[The Discord Opera GX promo link generator]=------------#"
 echo "|                                                                   |" 
-echo "|       This tool will work until June 17th, 2024 (11:59PM PST)     |"
+echo "| This tool will work until June 17th, 2024 (11:59PM PST)           |"
 echo "|[=================================================================]|"
 echo "|                                                                   |"
-echo "|       Using a cURL request it obtains a operaGX promo token       |"
-echo "|      And this tool does the rest then sends it to a webhook       |"
+echo "| Using a cURL request it obtains a operaGX promo token             |"
+echo "| And this tool does the rest then sends it to a webhook            |"
 echo "|                                                                   |"
 echo "#-------------------------------------------------------------------#"                          
 read -s -p "input your discord webhook url here : " hookURL
+read -p "amount of links to generator : " amount
+var=1
+while ((($var != $amount+1))); do
+clear
+echo "| Generating Links... $var/$amount Done " 
 echo
 echo "[/] Obtaining promo token..."
 
@@ -29,15 +34,15 @@ bae3=$(curl -s 'https://api.discord.gx.games/v1/direct-fulfillment' \
   --data-raw '{"partnerUserId":"6fb92427ae41e4649b934ca49599e3b0c44298fc1c149afbf4c8991b7852b855"}' \
   --compressed)
 
-echo "[+] Obtained promo token!"
+echo -e "\033[1;92m[+] Obtained promo token!\033[1;0m"
 echo "[/] Adding token to discord promo link..."
 WORDTOREMOVE='{"token":"'
 WORDTOREMOVE22='"}'
 bea2=$(echo $bae3 | sed s/"$WORDTOREMOVE"//)
 
 b2=$(echo $bea2 | sed s/"$WORDTOREMOVE22"//)
-var=$((var + 1))
-echo "[+] Added token to discord promo link!"
+
+echo -e "\033[1;92m[+] Added token to discord promo link!\033[0m"
 echo "[/] Sending link to webhook..."
 
 generate_post_data() {
@@ -46,12 +51,21 @@ generate_post_data() {
   "content": "",
   "embeds": [{
     "title": "Here is your Discord (Opera GX) Promotion link",
-    "description": "[Here](https://discord.com/billing/partner-promotions/1180231712274387115/$b2) but you cant have had nitro in the last 12 months!",
+    "description": "[Here](https://discord.com/billing/partner-promotions/1180231712274387115/$b2) but you cant have had nitro in the last 12 months!\n\nSent with The Discord Opera GX promo link generator\n $var/$amount",
     "color": "45973"
   }]
 }
 EOF
 }
-curl -H "Content-Type: application/json" -X POST -d "$(generate_post_data)" $hookURL
-echo "[+] Sent link to webhook!"
+curl --fail -s -H "Content-Type: application/json" -X POST -d "$(generate_post_data)" $hookURL
+
+if [ $? -ne 0 ]; then
+  echo -e "\033[1;91m[-] Your webhook url is invalid or failed :( Try again!"
+  exit 1
+fi
+
+echo -e "\033[1;92m[+] Sent link to webhook!\033[1;0m"
+var=$((var + 1))
+sleep 1
+done
 echo "[=] Done!"
