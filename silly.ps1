@@ -10,7 +10,7 @@ Write-Output "| And this tool does the rest then sends it to a webhook          
 Write-Output "|                                                                   |"
 Write-Output "#-------------------------------------------------------------------#"
 
-$hookURL = Read-Host "Input your Discord webhook URL here: "
+$hookURL = Read-Host "Input your Discord webhook URL here: " -AsSecureString
 $amount = Read-Host "Amount of links to generate: "
 $var = 1
 
