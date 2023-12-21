@@ -8,7 +8,7 @@ echo "|       Using a cURL request it obtains a operaGX promo token       |"
 echo "|      And this tool does the rest then sends it to a webhook       |"
 echo "|                                                                   |"
 echo "#-------------------------------------------------------------------#"                          
-read -p -s "input your discord webhook url here : " hookURL
+read -p "input your discord webhook url here : " hookURL
 echo
 echo "[/] Obtaining promo token..."
 
