@@ -11,7 +11,7 @@ This tool can be used to generate discord promo links until July 27th, 2024 (11:
 ```bash
 bash <(curl -s https://raw.githubusercontent.com/WaveDemure/i-just-need-a-scriptium/main/goober.sh)
 ```
-## Windows (PowerShell) script
+## Windows (PowerShell) script [brocek]
 
 ```ps1
 $Script = Invoke-WebRequest 'https://raw.githubusercontent.com/WaveDemure/i-just-need-a-scriptium/main/silly.ps1'
